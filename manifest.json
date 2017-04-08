@@ -2,7 +2,7 @@
     "manifest_version": 2,
     "name": "Full text mode for FTC",
     "description": "This extension enable full text mode for FTC page",
-    "version": "0.0.1",
+    "version": "0.0.3",
     "icons": {
         "16": "icon.png",
         "48": "icon.png",

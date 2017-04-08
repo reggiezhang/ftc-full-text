@@ -20,7 +20,7 @@
     },
     "permissions": [
         "tabs",
-        "http://*/*",
-        "https://*/*"
+        "http://www.ftchinese.com/*",
+        "https://www.ftchinese.com/*"
     ]
 }

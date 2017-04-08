@@ -9,6 +9,15 @@ function match(url) {
   return host;
 }
 
+function reloadInFullText(tabId, url) {
+  var hashStart = (url.indexOf('#') === -1) ? url.length : url.indexOf('#');
+  var querySymbol = (url.indexOf('?') === -1) ? '?' : '&';
+  var newUrl = url.substring(0, hashStart) + querySymbol + encodeURI('full=y') +
+    url.substring(hashStart);
+
+  chrome.tabs.update(tabId, { url: newUrl });
+}
+
 chrome.tabs.onUpdated.addListener(function (tabId, info, tab) {
   var url = tab.url;
   if (info.status != "complete"
@@ -18,20 +27,31 @@ chrome.tabs.onUpdated.addListener(function (tabId, info, tab) {
     return;
   }
 
-  var hashStart = (url.indexOf('#') === -1) ? url.length : url.indexOf('#');
-  var querySymbol = (url.indexOf('?') === -1) ? '?' : '&';
-  var newUrl = url.substring(0, hashStart) + querySymbol + encodeURI('full=y') +
-    url.substring(hashStart);
+  chrome.tabs.executeScript(tab.id, {
+    file: "script.js"
+  }, function (results) {
+    if (results > 0) {
+      reloadInFullText(tab.id, tab.url);
+    }
+  });
 
-  chrome.tabs.update(tab.id, { url: newUrl });
 });
 
 chrome.browserAction.onClicked.addListener(function (tab) {
-  var url = tab.url;
-  var hashStart = (url.indexOf('#') === -1) ? url.length : url.indexOf('#');
-  var querySymbol = (url.indexOf('?') === -1) ? '?' : '&';
-  var newUrl = url.substring(0, hashStart) + querySymbol + encodeURI('full=y') +
-    url.substring(hashStart);
 
-  chrome.tabs.update(tab.id, { url: newUrl });
+  var url = tab.url;
+  if (match(url).toLowerCase() != "www.ftchinese.com"
+    || url.indexOf("ftchinese.com/story") == -1
+    || url.indexOf("full=y") > 0) {
+    return;
+  }
+
+  chrome.tabs.executeScript(tab.id, {
+    file: "script.js"
+  }, function (results) {
+    if (results > 0) {
+      reloadInFullText(tab.id, tab.url);
+    }
+  });
+
 });

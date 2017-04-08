@@ -18,17 +18,17 @@ function reloadInFullText(tabId, url) {
     chrome.tabs.update(tabId, { url: newUrl });
 }
 
-function noNeedProceed(url) {
+function notFtcStoryPage(url) {
     return match(url).toLowerCase() != "www.ftchinese.com"
         || url.indexOf("ftchinese.com/story") == -1
         || url.indexOf("full=y") > 0;
 }
 
-chrome.tabs.onUpdated.addListener(function (tabId, info, tab) {
-    if (info.status != "complete"
-        || noNeedProceed(tab.url)) {
-        return;
-    }
+function stillLoading(status) {
+    return status != "complete";
+}
+
+function reloadStoryPageIfNeeded(tab) {
     chrome.tabs.executeScript(tab.id, {
         file: "script.js"
     }, function (results) {
@@ -36,17 +36,16 @@ chrome.tabs.onUpdated.addListener(function (tabId, info, tab) {
             reloadInFullText(tab.id, tab.url);
         }
     });
+}
+
+chrome.tabs.onUpdated.addListener(function (tabId, info, tab) {
+    if (stillLoading(info.status) || notFtcStoryPage(tab.url)) return;
+    // reload ftc story page in full text mode after page loading completed
+    reloadStoryPageIfNeeded(tab);
 });
 
 chrome.browserAction.onClicked.addListener(function (tab) {
-    if (noNeedProceed(tab.url)) {
-        return;
-    }
-    chrome.tabs.executeScript(tab.id, {
-        file: "script.js"
-    }, function (results) {
-        if (results > 0) {
-            reloadInFullText(tab.id, tab.url);
-        }
-    });
+    if (notFtcStoryPage(tab.url)) return;
+    // reload ftc story page in full text mode
+    reloadStoryPageIfNeeded(tab);
 });

@@ -1,21 +1,26 @@
 {
-  "manifest_version": 2,
-
-  "name": "Full text mode for FTC",
-  "description": "This extension enable full text mode for FTC page",
-  "version": "0.0.1",
-
-  "browser_action": {
-    "default_title": "Full text",
-    "default_icon": "icon.png"
-  },
-  "background": {
-    "persistent": false,
-    "scripts": ["background.js"]
-  },
-  "permissions": [
-    "tabs",
-    "http://*/*",
-    "https://*/*"
-  ]
+    "manifest_version": 2,
+    "name": "Full text mode for FTC",
+    "description": "This extension enable full text mode for FTC page",
+    "version": "0.0.1",
+    "icons": {
+        "16": "icon.png",
+        "48": "icon.png",
+        "128": "icon.png"
+    },
+    "browser_action": {
+        "default_title": "Full text",
+        "default_icon": "icon.png"
+    },
+    "background": {
+        "persistent": false,
+        "scripts": [
+            "background.js"
+        ]
+    },
+    "permissions": [
+        "tabs",
+        "http://*/*",
+        "https://*/*"
+    ]
 }

@@ -35,7 +35,7 @@ function reloadWithParam(tabId, url, param) {
 }
 function reloadStoryPageInFullText(tab) {
     chrome.tabs.executeScript(tab.id, {
-        file: "script.js"
+        file: "paginationCheck.js"
     }, function (results) {
         if (results > 0) {
             reloadWithParam(tab.id, tab.url, "full=y");

@@ -9,7 +9,7 @@
         "128": "icon.png"
     },
     "browser_action": {
-        "default_title": "Full text",
+        "default_title": "Print mode",
         "default_icon": "icon.png"
     },
     "background": {

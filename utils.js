@@ -14,16 +14,32 @@ function notFtcStoryPage(url) {
         || url.indexOf("ftchinese.com/story") == -1;
 }
 
+function isFtcStoryPage(url) {
+    return !notFtcStoryPage(url);
+}
+
 function containFullParam(url) {
     return url.indexOf("full=y") > 0;
+}
+
+function notContainFullParam(url) {
+    return !containFullParam(url);
 }
 
 function containPrintParam(url) {
     return url.indexOf("print=y") > 0;
 }
 
+function notContainPrintParam(url) {
+    return !containPrintParam(url);
+}
+
 function stillLoading(status) {
     return status != "complete";
+}
+
+function loadCompleted(status) {
+    return !stillLoading(status);
 }
 function reloadWithParam(tabId, url, param) {
     var hashStart = (url.indexOf('#') === -1) ? url.length : url.indexOf('#');

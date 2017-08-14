@@ -13,9 +13,8 @@
         "default_icon": "icon.png"
     },
     "background": {
-        "persistent": false,
         "scripts": [
-            "utils.js", 
+            "utils.js",
             "background.js"
         ]
     },
